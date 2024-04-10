@@ -16,8 +16,41 @@ namespace Steuerbetrag
 
         private void CmdSwitchcase_Click(object sender, EventArgs e)
         {
+            // Gehalt einlesen und in eine Zahl umwandeln
+            int gehalteingabe;
+            bool isNumeric = int.TryParse(textBoxGehalt.Text, out gehalteingabe);
+            if (!isNumeric)
+            {
+                LblSteuerbetrag.Text = "Bitte geben Sie eine gültige Zahl ein.";
+                return;
+            }
 
+
+            decimal steuerbetrag;
+
+            // Annahme: Die Gehaltsbereiche werden als Ganzzahlen gehandhabt.
+            switch (gehalteingabe)
+            {
+                case int n when (n >= 0 && n <= 12000):
+                    steuerbetrag = n * 0.12m;
+                    break;
+                case int n when (n > 12000 && n <= 20000):
+                    steuerbetrag = n * 0.15m;
+                    break;
+                case int n when (n > 20000 && n <= 30000):
+                    steuerbetrag = n * 0.20m;
+                    break;
+                case int n when (n > 30000):
+                    steuerbetrag = n * 0.25m;
+                    break;
+                default:
+                    steuerbetrag = 0;
+                    break;
+            }
+
+            LblSteuerbetrag.Text = $"Steuerbetrag: {steuerbetrag:C}";
         }
+
 
         private void Cmdifelse_Click(object sender, EventArgs e)
         {
